@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <icons>
-    <icon drawable="@array/grayscale_calendar_icons" package="com.google.android.calendar"/>
+    <icon drawable="@drawable/themed_icon_calendar" package="com.google.android.calendar"/>
     <icon drawable="@array/grayscale_clock_icons" package="com.google.android.deskclock"/>
     <icon drawable="@drawable/themed_icon_1gallery" package="app.galleryx"/>
+    <icon drawable="@drawable/themed_icon_2048" package="com.tpcstld.twozerogame"/>
     <icon drawable="@drawable/themed_icon_3dmark" package="com.futuremark.dmandroid.application"/>
     <icon drawable="@drawable/themed_icon_8ball_pool" package="com.miniclip.eightballpool"/>
     <icon drawable="@drawable/themed_icon_365_scores" package="com.scores365"/>
@@ -579,6 +580,7 @@
     <icon drawable="@drawable/themed_icon_sweech" package="com.sweech"/>
     <icon drawable="@drawable/themed_icon_swiftkey" package="com.touchtype.swiftkey"/>
     <icon drawable="@drawable/themed_icon_swift_backup" package="org.swiftapps.swiftbackup"/>
+    <icon drawable="@drawable/themed_icon_swiggy" package="in.swiggy.android"/>
     <icon drawable="@drawable/themed_icon_syncthing" package="com.nutomic.syncthingandroid"/>
     <icon drawable="@drawable/themed_icon_sync" package="com.laurencedawson.reddit_sync"/>
     <icon drawable="@drawable/themed_icon_sync" package="com.laurencedawson.reddit_sync.pro"/>
@@ -707,5 +709,6 @@
     <icon drawable="@drawable/themed_icon_zarchiver" package="ru.zdevs.zarchiver"/>
     <icon drawable="@drawable/themed_icon_zarchiver" package="ru.zdevs.zarchiver.pro"/>
     <icon drawable="@drawable/themed_icon_zedge" package="net.zedge.android"/>
+    <icon drawable="@drawable/themed_icon_zomato" package="com.application.zomato"/>
     <icon drawable="@drawable/themed_icon_zoom" package="us.zoom.videomeetings"/>
 </icons>
