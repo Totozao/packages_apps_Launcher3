@@ -41,8 +41,16 @@ import android.os.Bundle;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
 
+import android.app.smartspace.SmartspaceTarget;
+import android.os.Bundle;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
+
+import com.android.launcher3.uioverrides.Launcher3ModelDelegate.SmartspaceItem;
+
+import com.android.launcher3.model.BgDataModel;
+import com.android.launcher3.qsb.LauncherUnlockAnimationController;
+import com.android.quickstep.SystemUiProxy;
 
 import com.android.launcher3.BaseQuickstepLauncher;
 import com.android.launcher3.DeviceProfile;
@@ -89,14 +97,23 @@ import com.android.quickstep.views.RecentsView;
 import com.android.quickstep.views.TaskView;
 import com.android.systemui.plugins.shared.LauncherOverlayManager;
 
+
+import com.google.android.systemui.smartspace.BcSmartspaceDataProvider;
+
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class QuickstepLauncher extends BaseQuickstepLauncher {
+
+    private BcSmartspaceDataProvider mSmartspacePlugin = new BcSmartspaceDataProvider();
+    private LauncherUnlockAnimationController mUnlockAnimationController =
+            new LauncherUnlockAnimationController(this);
 
     public static final boolean GO_LOW_RAM_RECENTS_ENABLED = false;
     /**
@@ -130,11 +147,61 @@ public class QuickstepLauncher extends BaseQuickstepLauncher {
         if (!Utilities.showStatusbarEnabled(getApplicationContext())) {
             getStateManager().addStateListener(noStatusBarStateListener);
         }
+        SystemUiProxy.INSTANCE.get(this).setLauncherUnlockAnimationController(mUnlockAnimationController);
     }
 
     @Override
     protected LauncherOverlayManager getDefaultOverlay() {
         return new OverlayCallbackImpl(this);
+    }
+
+    public BcSmartspaceDataProvider getSmartspacePlugin() {
+        return mSmartspacePlugin;
+    }
+    public LauncherUnlockAnimationController getLauncherUnlockAnimationController() {
+        return mUnlockAnimationController;
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        SystemUiProxy.INSTANCE.get(this).setLauncherUnlockAnimationController(null);
+
+        if (!Utilities.showStatusbarEnabled(getApplicationContext())) {
+            getStateManager().removeStateListener(noStatusBarStateListener);
+        }
+        mHotseatPredictionController.destroy();
+    }
+    @Override
+    public void onOverlayVisibilityChanged(boolean visible) {
+        super.onOverlayVisibilityChanged(visible);
+        mUnlockAnimationController.updateSmartspaceState();
+    }
+    @Override
+    public void onPageEndTransition() {
+        super.onPageEndTransition();
+        mUnlockAnimationController.updateSmartspaceState();
+    }
+    @Override
+    public void bindExtraContainerItems(BgDataModel.FixedContainerItems container) {
+        if (container.containerId == -110) {
+            List<SmartspaceTarget> targets = container.items.stream()
+                                                            .map(item -> ((SmartspaceItem) item).getSmartspaceTarget())
+                                                            .collect(Collectors.toList());
+            mSmartspacePlugin.onTargetsAvailable(targets);
+        }
+        super.bindExtraContainerItems(container);
+
+        if (container.containerId == Favorites.CONTAINER_PREDICTION) {
+            mAllAppsPredictions = container;
+            PredictionRowView<?> predictionRowView =
+                    getAppsView().getFloatingHeaderView().findFixedRowByType(
+                            PredictionRowView.class);
+            predictionRowView.setPredictedApps(container.items);
+        } else if (container.containerId == Favorites.CONTAINER_HOTSEAT_PREDICTION) {
+            mHotseatPredictionController.setPredictedItems(container);
+        } else if (container.containerId == Favorites.CONTAINER_WIDGETS_PREDICTION) {
+            getPopupDataProvider().setRecommendedWidgets(container.items);
+        }
     }
 
     @Override
@@ -267,33 +334,9 @@ public class QuickstepLauncher extends BaseQuickstepLauncher {
     }
 
     @Override
-    public void bindExtraContainerItems(FixedContainerItems item) {
-        if (item.containerId == Favorites.CONTAINER_PREDICTION) {
-            mAllAppsPredictions = item;
-            PredictionRowView<?> predictionRowView =
-                    getAppsView().getFloatingHeaderView().findFixedRowByType(
-                            PredictionRowView.class);
-            predictionRowView.setPredictedApps(item.items);
-        } else if (item.containerId == Favorites.CONTAINER_HOTSEAT_PREDICTION) {
-            mHotseatPredictionController.setPredictedItems(item);
-        } else if (item.containerId == Favorites.CONTAINER_WIDGETS_PREDICTION) {
-            getPopupDataProvider().setRecommendedWidgets(item.items);
-        }
-    }
-
-    @Override
     public void bindWorkspaceComponentsRemoved(Predicate<ItemInfo> matcher) {
         super.bindWorkspaceComponentsRemoved(matcher);
         mHotseatPredictionController.onModelItemsRemoved(matcher);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (!Utilities.showStatusbarEnabled(getApplicationContext())) {
-            getStateManager().removeStateListener(noStatusBarStateListener);
-        }
-        mHotseatPredictionController.destroy();
     }
 
     @Override
