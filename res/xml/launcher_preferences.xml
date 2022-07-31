@@ -18,6 +18,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:launcher="http://schemas.android.com/apk/res-auto">
 
+    <SwitchPreference
+        android:key="pref_smartspace"
+        android:title="@string/smartspace_pref_title"
+        android:summary="@string/smartspace_pref_summary"
+        android:defaultValue="true" />
+
     <Preference
         android:key="icons"
         android:title="@string/icons_category_title"
