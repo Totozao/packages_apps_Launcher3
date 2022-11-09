@@ -732,11 +732,11 @@ public abstract class BaseAllAppsContainerView<T extends Context & ActivityConte
             if (!mUsingTabs) {
                 bottom += getFloatingHeaderView().getPaddingBottom() - mHeaderBottomAdjustment;
             }
-            canvas.drawRect(0, 0, canvas.getWidth(), bottom, mHeaderPaint);
+            //canvas.drawRect(0, 0, canvas.getWidth(), bottom, mHeaderPaint);
             int tabsHeight = getFloatingHeaderView().getPeripheralProtectionHeight();
             if (mTabsProtectionAlpha > 0 && tabsHeight != 0) {
                 mHeaderPaint.setAlpha((int) (getAlpha() * mTabsProtectionAlpha));
-                canvas.drawRect(0, bottom, canvas.getWidth(), bottom + tabsHeight, mHeaderPaint);
+                //canvas.drawRect(0, bottom, canvas.getWidth(), bottom + tabsHeight, mHeaderPaint);
             }
         }
     }
