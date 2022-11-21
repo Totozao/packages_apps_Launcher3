@@ -70,6 +70,11 @@
     <string name="overview_gesture_intro_title" msgid="2902054412868489378">"Переключение между приложениями"</string>
     <string name="overview_gesture_intro_subtitle" msgid="4968091015637850859">"Чтобы переключиться между приложениями‚ проведите по экрану снизу вверх, задержите палец, а затем отпустите."</string>
     <string name="overview_gesture_spoken_intro_subtitle" msgid="3853371838260201751">"Чтобы сменить приложение, проведите двумя пальцами снизу вверх, задержите пальцы, а затем отпустите."</string>
+    <string name="assistant_gesture_tutorial_playground_title" translatable="false">Обучение: Ассистент</string>
+    <string name="assistant_gesture_tutorial_playground_subtitle" translatable="false">Попробуйте провести пальцем по диагонали от нижнего угла экрана</string>
+    <string name="assistant_gesture_feedback_swipe_too_far_from_corner" translatable="false">Убедитесь, что вы проводите пальцем от нижнего угла экрана.</string>
+    <string name="assistant_gesture_feedback_swipe_not_diagonal" translatable="false">Убедитесь, что вы проводите по диагонали.</string>
+    <string name="assistant_gesture_feedback_swipe_not_long_enough" translatable="false">Попробуйте провести пальцем дальше.</string>
     <string name="gesture_tutorial_confirm_title" msgid="6201516182040074092">"Готово"</string>
     <string name="gesture_tutorial_action_button_label" msgid="6249846312991332122">"Готово"</string>
     <string name="gesture_tutorial_action_button_label_settings" msgid="2923621047916486604">"Настройки"</string>
@@ -110,4 +115,5 @@
     <string name="taskbar_button_quick_settings" msgid="227662894293189391">"Быстрые настройки"</string>
     <string name="move_drop_target_top_or_left" msgid="2988702185049595807">"Переместить вверх или влево"</string>
     <string name="move_drop_target_bottom_or_right" msgid="5431393418797620162">"Переместить вниз или вправо"</string>
+    <string name="move_drop_target_bottom_or_rightdd" msgid="5431393418797620162">"Переместить вниз или вправо"</string>
 </resources>
